@@ -79,6 +79,7 @@ def get_matching_s3_objects(bucket, prefix='', suffix=''):
 
         for obj in contents:
             key = obj['Key']
+
             if key.startswith(tuple(prefix)) and key.endswith(tuple(suffix)):
                 yield obj
         # The S3 API is paginated, returning up to 1000 keys at a time.
@@ -104,8 +105,7 @@ def get_matching_s3_keys(bucket, prefix='', suffix='', size='', cost='', total_f
         storage_class = obj['StorageClass'] 
         yield latest_file_modified
         #yield obj['StorageClass']
-	#yield obj['Size']/1000000.0
-        size += obj['Size']
+	size += obj['Size']
         yield size
         price = pricing(price=storage_class)
         cost += (obj['Size']/1000000000.0) * price  #size converted to GB to get the cost
@@ -145,8 +145,8 @@ def list_buckets(prefix='', suffix=''):
 def main(argv):
 #If a prefix or suffix is passed, it will print only the buckets that match the criteria, else it will print all the buckets, even the empty ones.
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--prefix", default=[''], help="Setting a prefix to list objects in a specific path, eg: mybucket/Folder/SubFolder/log")
-    parser.add_argument("-sx", "--suffix", default=[''], help="setting a suffix for type of objects to list")
+    parser.add_argument("-p", "--prefix", default=[''], help="Setting a prefix to list objects in a specific path, eg: -p folder/SubFolder/log")
+    parser.add_argument("-sx", "--suffix", default=[''], help="setting a suffix for type of objects to retrieve, '-sx .png' '-sx .png .txt' ")
     parser.add_argument("-s", "--sort_by", default='', help="Sort the results, valid options are: size, location, total_files, date and cost. An invalid option will be ignored ")
     args = parser.parse_args()
     buckets_list=list_buckets(args.prefix,args.suffix)
