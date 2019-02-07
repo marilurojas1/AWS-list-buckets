@@ -40,10 +40,10 @@ def sizeof_fmt(num, suffix='B'):
 #As per defined in her https://aws.amazon.com/s3/pricing/
 def pricing(price):
     return {
-        'GLACIAR': 0.005,
+        'GLACIER': 0.005,
         'STANDARD_IA': 0.019,
-        'ONEZONE': 0.0152,
-        'REDUCER_REDUNDANCY': 02
+        'ONEZONE_IA': 0.0152,
+        'REDUCED_REDUNDANCY': 0.02
     }.get(price, .025)
 
 
